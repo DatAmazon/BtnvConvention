@@ -1,0 +1,29 @@
+﻿@model DB.DbAccess.Product
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h3>Chỉnh sửa SP ID- @Model.ProductID</h3>
+
+<form method="post" action="Edit">
+    <div class="form-horizontal">
+        <hr />
+        <input type="hidden" name="id" value="@Model.ProductID" />
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="name" required="required" placeholder="Tên SP" value="@Model.Name" oninvalid="this.setCustomValidity('Điền tên sản phẩm')" />
+        </div>
+        <div class="col-md-10 mt-3">
+            <input type="number" class="form-control" name="quantity" required="required" placeholder="Số lượng" value="@Model.Quantity" oninvalid="this.setCustomValidity('Điền số lượng')" />
+        </div>
+        <div class="col-md-10 mt-3">
+            <input type="number" class="form-control" name="price" required="required" placeholder="Giá" value="@Model.Price" oninvalid="this.setCustomValidity('Điền giá bán')" />
+        </div>
+
+        <div class="col-md-offset-2 col-md-10 mt-3">
+            <a href="~/Products/Index" class="btn btn-primary">Trở về</a> |
+            <input type="submit" value="Lưu" class="btn btn-success" />
+        </div>
+    </div>
+</form>
+
+

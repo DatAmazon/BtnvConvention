@@ -1,0 +1,67 @@
+﻿@model List<DB.DbAccess.Order_Detail>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Danh sách chi tiết hóa đơn</h3>
+
+<form method="post">
+    <p>
+        <input name="search" class="btn-outline-primary" placeholder="Nhập mã CTHĐ cần tìm" style="width: 250px" />
+        <input type="submit" value="Tìm" class="btn btn-outline-success" style="margin-bottom: 3px; padding: 2px 15px; " />
+    </p>
+</form>
+
+<p style="float:left;">
+    <a href="/OrderDetail/Create" class="btn btn-info text-right">Thêm mới</a>
+</p>
+<table class="table table-striped table-bordered">
+    <tr class="table-dark">
+        <th style="text-align: center">
+            Mã chi tiết hóa đơn
+        </th>
+        <th style="text-align: center">
+            Mã hóa đơn
+        </th>
+        <th style="text-align: center">
+            Mã sản phẩm
+        </th>
+        <th class="text-center">
+            Số lượng
+        </th>
+        <th style="text-align: center">
+            Giá bán
+        </th>
+        <th>
+            Thao tác
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="table-info">
+            <td>
+                @item.OrderDetailId
+            </td>
+            <td>
+                @item.OrderId
+            </td>
+            <td>
+                @item.ProductId
+            </td>
+            <td>
+                @item.Quantity
+            </td>
+            <td>
+                @item.UnitPrice
+            </td>
+            <td style="text-align: center">
+                @*<a href="~/OrderDetail/Edit/@item.OrderDetailId" class="btn btn-success">Sửa</a>*@
+                <a href="~/OrderDetail/Detail/@item.OrderDetailId" class="btn btn-warning">Chi tiết</a> 
+                @*<a href="~/OrderDetail/Delete/@item.OrderDetailId" class="btn btn-danger">Xóa</a>*@
+            </td>
+        </tr>
+    }
+
+</table>
+

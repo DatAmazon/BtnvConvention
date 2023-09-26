@@ -1,0 +1,65 @@
+﻿@model List<DB.DbAccess.Product>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Danh sách SP</h3>
+
+<form method="post">
+    <p>
+        <input name="search" class="btn-outline-primary" placeholder="Nhập tên sp cần tìm kiếm" />
+        <input type="submit" value="Tìm" class="btn btn-outline-success" style="margin-bottom: 3px; padding: 2px 15px; " />
+    </p>
+</form>
+
+
+
+<p style="float:right;">
+    <a href="~/Products/Create" class="btn btn-info text-right">Thêm mới</a>
+</p>
+<table class="table table-striped table-bordered">
+    <tr class="table-dark">
+        <th style="text-align: center">
+            Mã SP
+        </th>
+        <th style="text-align: center">
+            Tên SP
+        </th>
+        <th style="text-align: center">
+            Số lượng
+        </th>
+        <th style="text-align: center">
+            Giá
+        </th>
+        <th style="text-align: center">
+            Thao tác
+        </th>
+    </tr>
+
+    @foreach (var item in ViewBag.Products)
+    {
+        <tr class="table-info">
+            <td>
+                @item.ProductID
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Quantity
+            </td>
+            <td>
+                @item.Price
+            </td>
+
+            <td style="text-align: center">
+                <a href="~/Products/Edit/@item.ProductID" class="btn btn-success">Sửa</a>
+                <a href="~/Products/Details/@item.ProductID" class="btn btn-warning">Chi tiết</a>
+                <a href="~/Products/Delete/@item.ProductID" class="btn btn-danger">Xóa</a>
+                <a href="~/OrderDetail/Create/@item.ProductID" class="btn btn-primary">Mua</a>
+            </td>
+        </tr>
+    }
+
+</table>
+

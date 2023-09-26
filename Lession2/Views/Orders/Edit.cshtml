@@ -1,0 +1,29 @@
+﻿@model DB.DbAccess.Order
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h3>Chỉnh sửa SP ID- @Model.OrderId</h3>
+
+<form method="post" action="Edit">
+    <div class="form-horizontal">
+        <hr />
+        <input type="hidden" name="id" value="@Model.OrderId" />
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="name" required="required" placeholder="Tên SP" value="@Model.OrderId" oninvalid="this.setCustomValidity('Điền tên sản phẩm')" />
+        </div>
+        <div class="col-md-10 mt-3">
+            <input type="text" class="form-control" name="quantity" required="required" placeholder="Số lượng" value="@Model.CustomerName" oninvalid="this.setCustomValidity('Điền số lượng')" />
+        </div>
+        <div class="col-md-10 mt-3">
+            <input type="datetime" class="form-control" name="price" required="required" placeholder="Giá" value="@Model.DateTime" oninvalid="this.setCustomValidity('Điền giá bán')" />
+        </div>
+
+        <div class="col-md-offset-2 col-md-10 mt-3">
+            <a href="~/Orders/Index" class="btn btn-primary">Trở về</a> |
+            <input type="submit" value="Lưu" class="btn btn-success" />
+        </div>
+    </div>
+</form>
+
+

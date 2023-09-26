@@ -1,0 +1,76 @@
+﻿@model List<DB.DbAccess.Order>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Danh sách đơn hàng</h3>
+
+<div style="display:flex; justify-content: space-between">
+    <form action="~/Orders/Index" method="get">
+        <p>
+            <input name="search" class="btn-outline-primary" placeholder="Nhập tên sp cần tìm kiếm" />
+            <input type="submit" value="Tìm" class="btn btn-outline-success" style="margin-bottom: 3px; padding: 2px 15px; " />
+        </p>
+    </form>
+
+    <form action="~/Orders/Index" method="post">
+        <div class="card-body" style="display: flex;">
+            Từ
+            <span>
+                <input class="form-control" name="timeStart" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" style="width: 250px; margin: auto 10px;" />
+            </span>
+            Đến
+            <span>
+                <input class="form-control" name="timeEnd" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" style="width: 250px; margin: auto 10px;" />
+            </span>
+            <span>
+                <input type="submit" value="Thống kê" />
+            </span>
+        </div>
+    </form>
+</div>
+
+
+
+<p style="float:left;">
+    <a href="~/Orders/Create" class="btn btn-info text-right">Thêm mới</a>
+</p>
+<table class="table table-striped table-bordered">
+    <tr class="table-dark">
+        <th style="text-align: center">
+            Mã hóa đơn
+        </th>
+        <th style="text-align: center">
+            Tên khách hàng
+        </th>
+        <th style="text-align: center">
+            Thời gian
+        </th>
+        <th style="text-align: center">
+            Thao tác
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="table-info">
+            <td>
+                @item.OrderId
+            </td>
+            <td>
+                @item.CustomerName
+            </td>
+            <td>
+                @item.DateTime
+            </td>
+            <td style="text-align: center">
+                @*<a href="~/Orders/Edit/@item.OrderId" class="btn btn-success">Sửa</a>*@
+                <a href="~/Orders/Detail/@item.OrderId" class="btn btn-warning">Chi tiết</a>
+                @*<a href="~/Orders/Delete/@item.OrderId" class="btn btn-danger">Xóa</a>*@
+            </td>
+
+        </tr>
+    }
+
+</table>
+

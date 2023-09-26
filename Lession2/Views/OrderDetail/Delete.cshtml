@@ -1,0 +1,33 @@
+﻿@model DB.DbAccess.Order
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h4 style="color: red">Bạn có chắc chắn muốn xóa SP có ID - @Model.OrderId</h4>
+<div>
+    <hr />
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr class="table-dark">
+                <th style="text-align: center">Tên SP</th>
+                <th style="text-align: center">Số lượng</th>
+                <th style="text-align: center">Giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="table-info">
+                <td>@Model.OrderId</td>
+                <td>@Model.CustomerName</td>
+                <td>@Model.DateTime</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form method="post">
+        <div class="form-actions no-color">
+            <input type="hidden" name="@Model.OrderId" />
+            <a href="~/Orders/Index" class="btn btn-warning">Trở về</a> |
+            <input type="submit" value="Xóa" class="btn btn-danger" />
+        </div>
+    </form>
+</div>

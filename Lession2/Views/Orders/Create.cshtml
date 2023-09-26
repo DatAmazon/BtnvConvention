@@ -1,0 +1,22 @@
+﻿@model DB.DbAccess.Order
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2 class="text-primary">Thêm hóa đơn mới</h2>
+<form method="post" action="Create">
+    <div class="form-horizontal">
+        <hr />
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="customerName" required="required" placeholder="Tên khách hàng" oninvalid="this.setCustomValidity('Điền tên khách hàng')" />
+        </div>
+        <div class="col-md-10 mt-3">
+            <input type="datetime-local" class="form-control" name="dt" required="required" placeholder="Thời gian" oninvalid="this.setCustomValidity('Điền thời gian')" />
+        </div>
+
+        <div class="col-md-offset-2 col-md-10 mt-3">
+            <a href="~/Orders/Index" class="btn btn-primary">Trở về</a> |
+            <input type="submit" value="Thêm" class="btn btn-success" />
+        </div>
+    </div>
+</form>
