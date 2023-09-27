@@ -4,15 +4,12 @@
 }
 
 <h3>Danh sách SP</h3>
-
 <form method="post">
     <p>
         <input name="search" class="btn-outline-primary" placeholder="Nhập tên sp cần tìm kiếm" />
         <input type="submit" value="Tìm" class="btn btn-outline-success" style="margin-bottom: 3px; padding: 2px 15px; " />
     </p>
 </form>
-
-
 
 <p style="float:right;">
     <a href="~/Products/Create" class="btn btn-info text-right">Thêm mới</a>
@@ -36,7 +33,7 @@
         </th>
     </tr>
 
-    @foreach (var item in ViewBag.Products)
+    @foreach (var item in Model)
     {
         <tr class="table-info">
             <td>
@@ -60,6 +57,5 @@
             </td>
         </tr>
     }
-
 </table>
 

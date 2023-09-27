@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DB.DbAccess
 {
@@ -12,268 +7,57 @@ namespace DB.DbAccess
     {
         public static List<Order> GetOrders()
         {
-            var list = new List<Order>();
-
-            using (SqlConnection cnn = new SqlConnection(SetConst.connectionString))
-            {
-                using (SqlCommand cmd = cnn.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "ProcGetListOrder";
-                    try
-                    {
-                        cnn.Open();
-                        using (SqlDataReader rd = cmd.ExecuteReader())
-                        {
-                            while (rd.Read())
-                            {
-                                list.Add(new Order
-                                {
-                                    OrderId = Convert.ToInt32(rd["OrderId"].ToString()),
-                                    CustomerName = rd["CustomerName"] != DBNull.Value ? rd["CustomerName"].ToString() : string.Empty,
-                                    DateTime = (DateTime)rd["DateTime"]
-                                });
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }
-            }
-            return list;
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            return SqlDbHelper.ConvertDataTableToList<Order>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.GetOrders, dict));
         }
 
         public static Order GetOrderById(int id)
         {
-            Order Or = null;
-            using (SqlConnection cnn = new SqlConnection(SetConst.connectionString))
-            {
-                using (SqlCommand cmd = cnn.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "ProcGetOrderByID";
-                    cmd.Parameters.AddWithValue("@OrderId", id);
-                    try
-                    {
-                        cnn.Open();
-                        using (SqlDataReader rd = cmd.ExecuteReader())
-                        {
-                            if (rd.HasRows)
-                            {
-                                while (rd.Read())
-                                {
-                                    Or = new Order
-                                    {
-                                        OrderId = Convert.ToInt32(rd["OrderId"].ToString()),
-                                        CustomerName = rd["CustomerName"] != DBNull.Value ? rd["CustomerName"].ToString() : string.Empty,
-                                        DateTime = (DateTime)rd["DateTime"]
-                                    };
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }
-            }
-            return Or;
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("@OrderId", id);
+            return SqlDbHelper.ExcuteReaderAnObject<Order>(SetConst.GetOrderById, dict);
         }
 
         public static void DeleteOrder(int id)
         {
-            using (SqlConnection cnn = new SqlConnection(SetConst.connectionString))
-            {
-                using (SqlCommand cmd = cnn.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "ProcDeleteOrderById";
-                    cmd.Parameters.AddWithValue("@orderId", id);
-                    try
-                    {
-                        cnn.Open();
-                        int check = cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-                }
-            }
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("@orderId", id);
+            SqlDbHelper.ExcuteNonQueryProcedure(SetConst.DeleteOrder, dict);
         }
 
         public static void CreateOrder(string customerName, DateTime dt)
         {
-            using (SqlConnection cnn = new SqlConnection(SetConst.connectionString))
-            {
-                using (SqlCommand cmd = cnn.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "ProcCreateOrder";
-                    cmd.Parameters.AddWithValue("@customer", customerName);
-                    cmd.Parameters.AddWithValue("@datetime", dt);
-                    try
-                    {
-                        cnn.Open();
-                        int check = cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-
-                }
-            }
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("@customer", customerName);
+            dict.Add("@datetime", dt);
+            SqlDbHelper.ExcuteNonQueryProcedure(SetConst.CreateOrder, dict);
         }
-
 
         public static List<Order> searchOrderByID(string orderID)
         {
-            List<Order> lstOr = new List<Order>();
-            using (SqlConnection cnn = new SqlConnection(SetConst.connectionString))
-            {
-                using (SqlCommand cmd = cnn.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "searchOrderById";
-                    cmd.Parameters.AddWithValue("@orderId", orderID);
-                    try
-                    {
-                        cnn.Open();
-                        using (SqlDataReader rdr = cmd.ExecuteReader())
-                        {
-                            while (rdr.Read())
-                            {
-                                lstOr.Add(new Order
-                                {
-                                    OrderId = Convert.ToInt32(rdr["OrderId"].ToString()),
-                                    CustomerName = rdr["customerName"] != DBNull.Value ? rdr["customerName"].ToString() : string.Empty,
-                                    DateTime = (DateTime)rdr["DateTime"]
-                                });
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-                }
-            }
-            return lstOr;
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("@orderId", orderID);
+            return SqlDbHelper.ConvertDataTableToList<Order>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.searchOrderByID, dict));
         }
         public static List<Order> searchOrderByCustomerName(string cus)
         {
-            List<Order> lstOr = new List<Order>();
-            using (SqlConnection cnn = new SqlConnection(SetConst.connectionString))
-            {
-                using (SqlCommand cmd = cnn.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "ProcGetOrderByCustomerName";
-                    cmd.Parameters.AddWithValue("@customerName", cus);
-                    try
-                    {
-                        cnn.Open();
-                        using (SqlDataReader rdr = cmd.ExecuteReader())
-                        {
-                            while (rdr.Read())
-                            {
-                                lstOr.Add(new Order
-                                {
-                                    OrderId = Convert.ToInt32(rdr["OrderId"].ToString()),
-                                    CustomerName = rdr["customerName"] != DBNull.Value ? rdr["customerName"].ToString() : string.Empty,
-                                    DateTime = (DateTime)rdr["DateTime"]
-                                });
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-                }
-            }
-            return lstOr;
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("@customerName", cus);
+            return SqlDbHelper.ConvertDataTableToList<Order>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.searchOrderByCustomerName, dict));
         }
         public static List<Order> searchOrderByTime(DateTime start, DateTime end)
         {
-            List<Order> lstOrder = new List<Order>();
-            using (SqlConnection cnn = new SqlConnection(SetConst.connectionString))
-            {
-                using (SqlCommand cmd = cnn.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "ProcSearchOrderByTime";
-                    cmd.Parameters.AddWithValue("@timeStart", start);
-                    cmd.Parameters.AddWithValue("@timeEnd", end);
-                    try
-                    {
-                        cnn.Open();
-                        using (SqlDataReader rd = cmd.ExecuteReader())
-                        {
-                            while (rd.Read())
-                            {
-                                lstOrder.Add(new Order
-                                {
-                                    OrderId = Convert.ToInt32(rd["OrderId"]),
-                                    CustomerName = rd["CustomerName"] != DBNull.Value ? rd["CustomerName"].ToString() : string.Empty,
-                                    DateTime = (DateTime)rd["DateTime"]
-                                });
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }
-            }
-            return lstOrder;
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("@timeStart", start);
+            dict.Add("@timeEnd", end);
+            return SqlDbHelper.ConvertDataTableToList<Order>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.searchOrderByTime, dict));
         }
 
         public static List<Order_Detail> DetailAllProductInOrderId(int orderID)
         {
-            List<Order_Detail> lstOr = new List<Order_Detail>();
-            using (SqlConnection cnn = new SqlConnection(SetConst.connectionString))
-            {
-                using (SqlCommand cmd = cnn.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "DetailAllProductInOrderId";
-                    cmd.Parameters.AddWithValue("@orderId", orderID);
-                    try
-                    {
-                        cnn.Open();
-                        using (SqlDataReader rdr = cmd.ExecuteReader())
-                        {
-                            while (rdr.Read())
-                            {
-                                lstOr.Add(new Order_Detail
-                                {
-                                    OrderDetailId = Convert.ToInt32(rdr["OrderDetailId"].ToString()),
-                                    OrderId = Convert.ToInt32(rdr["OrderId"].ToString()),
-                                    ProductId = Convert.ToInt32(rdr["ProductId"].ToString()),
-                                    Quantity = Convert.ToInt32(rdr["Quantity"].ToString()),
-                                    UnitPrice = Convert.ToInt32(rdr["UnitPrice"].ToString()),
-                                });
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-                }
-            }
-            return lstOr;
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("@orderId", orderID);
+            return SqlDbHelper.ConvertDataTableToList<Order_Detail>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.DetailAllProductInOrderId, dict));
         }
     }
 }

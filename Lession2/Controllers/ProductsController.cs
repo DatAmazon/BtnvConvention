@@ -9,14 +9,7 @@ namespace Lession2.Controllers
     {
         public ActionResult Index(string search)
         {
-            List<Product> productList = ProductService.GetProducts();
-
-            if (!String.IsNullOrEmpty(search))
-            {
-                productList = ProductService.SearchProByName(search);
-            }
-            ViewBag.Products = productList;
-            return View();
+            return View(string.IsNullOrEmpty(search) ? ProductService.GetProducts() : ProductService.SearchProByName(search));
         }
         public ActionResult Create()
         {
@@ -30,9 +23,7 @@ namespace Lession2.Controllers
         }
         public ActionResult Edit(int id)
         {
-            Product pro = new Product();
-            pro = ProductService.GetProductById(id);
-            return View(pro);
+            return View(ProductService.GetProductById(id));
         }
         [HttpPost]
         public ActionResult Edit(int id, string name, int quantity, float price)
@@ -42,26 +33,18 @@ namespace Lession2.Controllers
         }
         public ActionResult Details(int id)
         {
-            Product pro = new Product();
-            pro = ProductService.GetProductById(id);
-            return View(pro);
+            return View(ProductService.GetProductById(id));
         }
         public ActionResult Delete(int id)
         {
-            Product pro = new Product();
-            pro = ProductService.GetProductById(id);
-            return View(pro);
+            return View(ProductService.GetProductById(id));
         }
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirm(int id)
         {
-            Product pro = new Product();
             ProductService.DeleteProduct(id);
             return RedirectToAction("Index");
         }
-
-
-
     }
 }

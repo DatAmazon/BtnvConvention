@@ -4,11 +4,10 @@
 }
 
 <h3>Danh sách đơn hàng</h3>
-
 <div style="display:flex; justify-content: space-between">
     <form action="~/Orders/Index" method="get">
         <p>
-            <input name="search" class="btn-outline-primary" placeholder="Nhập tên sp cần tìm kiếm" />
+            <input name="search" class="btn-outline-primary" placeholder="Nhập tên khách hàng cần tìm kiếm" style="width:350px;" />
             <input type="submit" value="Tìm" class="btn btn-outline-success" style="margin-bottom: 3px; padding: 2px 15px; " />
         </p>
     </form>
@@ -29,8 +28,6 @@
         </div>
     </form>
 </div>
-
-
 
 <p style="float:left;">
     <a href="~/Orders/Create" class="btn btn-info text-right">Thêm mới</a>
@@ -68,9 +65,7 @@
                 <a href="~/Orders/Detail/@item.OrderId" class="btn btn-warning">Chi tiết</a>
                 @*<a href="~/Orders/Delete/@item.OrderId" class="btn btn-danger">Xóa</a>*@
             </td>
-
         </tr>
     }
-
 </table>
 
