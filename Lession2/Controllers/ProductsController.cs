@@ -1,16 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DB.DbAccess;
 using System.Web.Mvc;
-using DB.DbAccess;
 
 namespace Lession2.Controllers
 {
     public class ProductsController : Controller
     {
+        public readonly ICommon<Product> _productService;
+        public ProductsController() { }
+        public ProductsController(ICommon<Product> productService)
+        {
+            _productService = productService;
+        }
         public ActionResult Index(string search)
         {
-            return View(string.IsNullOrEmpty(search) ? ProductService.GetProducts() : ProductService.SearchProByName(search));
+            // _productService gọi GetAlls 
+            var products = string.IsNullOrEmpty(search) ? _productService.GetAlls() : ProductService.SearchProByName(search);
+            return View(products);
         }
+   
         public ActionResult Create()
         {
             return View();
@@ -23,7 +30,7 @@ namespace Lession2.Controllers
         }
         public ActionResult Edit(int id)
         {
-            return View(ProductService.GetProductById(id));
+            return View(_productService.GetById(id));
         }
         [HttpPost]
         public ActionResult Edit(int id, string name, int quantity, float price)
@@ -33,11 +40,11 @@ namespace Lession2.Controllers
         }
         public ActionResult Details(int id)
         {
-            return View(ProductService.GetProductById(id));
+            return View(_productService.GetById(id));
         }
         public ActionResult Delete(int id)
         {
-            return View(ProductService.GetProductById(id));
+            return View(new ProductService().GetById(id));
         }
 
         [HttpPost, ActionName("Delete")]

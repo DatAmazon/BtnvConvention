@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace DB.DbAccess
 {
-    public class OrderService
+    public class OrderService : ICommon<Order>
     {
-        public static List<Order> GetOrders()
+        public List<Order> GetAlls()
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             return SqlDbHelper.ConvertDataTableToList<Order>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.GetOrders, dict));
         }
 
-        public static Order GetOrderById(int id)
+        public Order GetById(int id)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("@OrderId", id);

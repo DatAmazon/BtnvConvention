@@ -2,15 +2,15 @@
 
 namespace DB.DbAccess
 {
-    public class ProductService
+    public class ProductService : ICommon<Product>
     {
-        public static List<Product> GetProducts()
+        public List<Product> GetAlls()
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             return SqlDbHelper.ConvertDataTableToList<Product>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.GetListProduct, dict));
         }
 
-        public static Product GetProductById(int id)
+        public Product GetById(int id)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("@productId", id);

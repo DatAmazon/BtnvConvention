@@ -2,15 +2,15 @@
 
 namespace DB.DbAccess
 {
-    public class Order_DetailService
+    public class Order_DetailService : ICommon<Order_Detail>
     {
-        public static List<Order_Detail> GetOrderDetails()
+        public List<Order_Detail> GetAlls()
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             return SqlDbHelper.ConvertDataTableToList<Order_Detail>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.GetOrderDetails, dict));
         }
 
-        public static Order_Detail GetOrderDetailById(int id)
+        public Order_Detail GetById(int id)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("@OrderDetailId", id);

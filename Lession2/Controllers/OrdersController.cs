@@ -1,20 +1,26 @@
 ﻿using DB.DbAccess;
 using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace Lession2.Controllers
 {
     public class OrdersController : Controller
     {
+        public readonly ICommon<Order> _orderService;
+        public OrdersController() { }
+        public OrdersController(ICommon<Order> orderService)
+        {
+            _orderService = orderService;
+        }
+
         public ActionResult Index(string search)
         {
-            return View(!String.IsNullOrEmpty(search) ? OrderService.searchOrderByCustomerName(search) : OrderService.GetOrders());
+            return View(!String.IsNullOrEmpty(search) ? OrderService.searchOrderByCustomerName(search) : new OrderService().GetAlls());
         }
         [HttpPost]
         public ActionResult Index(DateTime timeStart, DateTime timeEnd)
         {
-            return View(timeStart != timeEnd ? OrderService.searchOrderByTime(timeStart, timeEnd) : OrderService.GetOrders());
+            return View(timeStart != timeEnd ? OrderService.searchOrderByTime(timeStart, timeEnd) : _orderService.GetAlls());
         }
         public ActionResult Detail(int id)
         {
@@ -22,12 +28,12 @@ namespace Lession2.Controllers
         }
         public ActionResult Edit(int id)
         {
-            return View(OrderService.GetOrderById(id));
+            return View(_orderService.GetById(id));
         }
 
         public ActionResult Delete(int id)
         {
-            return View(OrderService.GetOrderById(id));
+            return View(_orderService.GetById(id));
         }
 
         [HttpPost, ActionName("Delete")]

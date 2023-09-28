@@ -6,16 +6,23 @@ namespace Lession2.Controllers
 {
     public class OrderDetailController : Controller
     {
+        public readonly ICommon<Order_Detail> _orderDetailService;
+        public OrderDetailController() { }
+        public OrderDetailController(ICommon<Order_Detail> orderDetailService)
+        {
+            _orderDetailService = orderDetailService;
+        }
+
         public ActionResult Index(int? search)
         {
-            return View(search != null ? Order_DetailService.searchOrderDetailByID(search) : Order_DetailService.GetOrderDetails());
+            return View(search != null ? Order_DetailService.searchOrderDetailByID(search) : new Order_DetailService().GetAlls());
         }
         public ActionResult Create(int? id)
         {
             if (id != null) ViewBag.SelectedProductID = id;
             var od = new Order_Detail();
-            List<Order> orders = OrderService.GetOrders();
-            List<Product> pros = ProductService.GetProducts();
+            List<Order> orders = new OrderService().GetAlls();
+            List<Product> pros = new ProductService().GetAlls();
             ViewBag.Orders = new SelectList(orders, "OrderId", "OrderId", od.OrderId);
             ViewBag.Products = new SelectList(pros, "ProductID", "Name", od.ProductId);
             foreach (var item in pros)
@@ -33,7 +40,7 @@ namespace Lession2.Controllers
         }
         public ActionResult Detail(int id)
         {
-            return View(Order_DetailService.GetOrderDetailById(id));
+            return View(_orderDetailService.GetById(id));
         }
     }
 }

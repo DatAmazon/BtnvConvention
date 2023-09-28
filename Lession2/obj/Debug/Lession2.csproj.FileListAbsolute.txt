@@ -160,3 +160,9 @@ D:\BtvnConvention\Lession2\obj\Debug\Lession2.csproj.CoreCompileInputs.cache
 D:\BtvnConvention\Lession2\obj\Debug\Lession2.csproj.CopyComplete
 D:\BtvnConvention\Lession2\obj\Debug\Lession2.dll
 D:\BtvnConvention\Lession2\obj\Debug\Lession2.pdb
+D:\BtvnConvention\Lession2\bin\Autofac.dll
+D:\BtvnConvention\Lession2\bin\Autofac.Integration.Mvc.dll
+D:\BtvnConvention\Lession2\bin\Autofac.Integration.WebApi.dll
+D:\BtvnConvention\Lession2\bin\Autofac.xml
+D:\BtvnConvention\Lession2\bin\Autofac.Integration.Mvc.xml
+D:\BtvnConvention\Lession2\bin\Autofac.Integration.WebApi.xml
