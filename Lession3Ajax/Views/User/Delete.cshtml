@@ -1,0 +1,70 @@
+﻿@model Lession3.User
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h4 style="color: red">Bạn có chắc chắn muốn xóa SP có ID - @Model.Id</h4>
+<div>
+    <hr />
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr class="table-dark">
+                <th style="text-align: center">
+                    ID người dùng
+                </th>
+                <th style="text-align: center">
+                    Tên tài khoản
+                </th>
+                <th style="text-align: center">
+                    Mật khẩu
+                </th>
+                <th style="text-align: center">
+                    Tên người dùng
+                </th>
+                <th style="text-align: center">
+                    Email
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="table-info">
+                <td>@Model.Id</td>
+                <td>@Model.AccountName</td>
+                <td>@Model.Pass</td>
+                <td>@Model.UserName</td>
+                <td>@Model.Email</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form method="post">
+        <div class="form-actions no-color">
+            <a href="~/User/Index" class="btn btn-warning">Trở về</a> |
+            <button id="deleteBtn" type="button" class="btn btn-danger">Xóa</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#deleteBtn").click(function (e) {
+            var id = @Model.Id;
+            e.preventDefault();
+            var userData = {
+                id: id
+            };
+            $.post("/User/Delete", userData)
+                .done(function (response) {
+                    alert("Xóa thành công mã: " + id);
+                        window.location.href = "/User/Index";
+                })
+                .fail(function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert("Lỗi máy chủ: " + error);
+                });
+        });
+    });
+</script>

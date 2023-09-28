@@ -14,7 +14,6 @@ namespace DB.DbAccess
             if (conn.State == ConnectionState.Closed) conn.Open();
             return conn;
         }
-
         public static void ExcuteNonQueryProcedure(string procedure, Dictionary<string, object> param)
         {
             using (var cmd = Connection().CreateCommand())

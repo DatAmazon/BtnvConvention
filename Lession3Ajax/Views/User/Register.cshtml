@@ -1,0 +1,92 @@
+﻿@model Lession3.User
+@{
+    ViewBag.Title = "Create";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<h2 class="text-primary">Đăng ký</h2>
+<form id="registerForm" method="post" action="/User/Register">
+    <div class="form-horizontal">
+        <hr />
+        <div class="col-md-10">
+            <input type="text" class="form-control" name="accName" required="required" placeholder="Tên tài khoản" />
+        </div>
+
+        <div class="col-md-10 mt-3">
+            <input type="password" class="form-control" name="pass" required="required" placeholder="Mật khẩu" />
+        </div>
+        <div class="col-md-10 mt-3">
+            <input type="text" class="form-control" name="userName" required="required" placeholder="Tên người dùng" />
+        </div>
+        <div class="col-md-10 mt-3">
+            <input type="email" class="form-control" name="email" required="required" placeholder="Email" />
+        </div>
+
+        <div class="col-md-offset-2 col-md-10 mt-3">
+            <a href="~/User/Index" class="btn btn-primary">Trở về</a> |
+            <button type="button" id="registerButton" class="btn btn-success">Đăng ký</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#registerButton").click(function (e) {
+            e.preventDefault();
+
+            var accName = $("input[name='accName']").val();
+            var pass = $("input[name='pass']").val();
+            var userName = $("input[name='userName']").val();
+            var email = $("input[name='email']").val();
+
+            if (!isValid(accName, pass, userName, email)) {
+                alert("Dữ liệu không hợp lệ");
+                return;
+            }
+            // Tạo object gửi y/c lên máy chủ
+            var userData = {
+                accName: accName,
+                pass: pass,
+                userName: userName,
+                email: email
+            };
+
+            $.post("/User/Register", userData)
+                .done(function (response) {
+                    alert("Đăng ký thành công cho: " + userName);
+                    window.location.href = "/User/Index";
+                })
+                .fail(function (xhr, status, error) {
+                    console.log(xhr.responseText); // In ra lỗi từ máy chủ trong Console
+                    alert("Đã xảy ra lỗi: " + error);
+                });
+        });
+    });
+    function isValid(accName, pass, userName, email) {
+        if (accName.length < 3 || accName.length > 20) {
+            alert("Tên tài khoản phải có từ 3 đến 20 ký tự.");
+            return false;
+        }
+
+        if (pass.length < 6) {
+            alert("Mật khẩu phải có ít nhất 6 ký tự.");
+            return false;
+        }
+
+        if (userName.length < 3 || userName.length > 50) {
+            alert("Tên người dùng phải có từ 3 đến 50 ký tự.");
+            return false;
+        }
+
+        if (!isValidEmail(email)) {
+            alert("Email không hợp lệ.");
+            return false;
+        }
+
+        return true;
+    }
+    function isValidEmail(checkEmail) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailPattern.test(checkEmail);
+    }
+</script>
