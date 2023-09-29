@@ -6,21 +6,21 @@ namespace Lession2.Controllers
 {
     public class OrderDetailController : Controller
     {
-        public readonly ICommon<Order_Detail> _orderDetailService;
+        public readonly ICommon<OrderDetail> _orderDetailService;
         public OrderDetailController() { }
-        public OrderDetailController(ICommon<Order_Detail> orderDetailService)
+        public OrderDetailController(ICommon<OrderDetail> orderDetailService)
         {
             _orderDetailService = orderDetailService;
         }
 
         public ActionResult Index(int? search)
         {
-            return View(search != null ? Order_DetailService.searchOrderDetailByID(search) : new Order_DetailService().GetAlls());
+            return View(search != null ? OrderDetailService.searchOrderDetailByID(search) : _orderDetailService.GetAlls());
         }
         public ActionResult Create(int? id)
         {
             if (id != null) ViewBag.SelectedProductID = id;
-            var od = new Order_Detail();
+            var od = new OrderDetail();
             List<Order> orders = new OrderService().GetAlls();
             List<Product> pros = new ProductService().GetAlls();
             ViewBag.Orders = new SelectList(orders, "OrderId", "OrderId", od.OrderId);
@@ -35,7 +35,7 @@ namespace Lession2.Controllers
         [HttpPost]
         public ActionResult Create(int orderId, int productId, int quantity, int price)
         {
-            Order_DetailService.CreateOrderDetail(orderId, productId, quantity, price);
+            OrderDetailService.CreateOrderDetail(orderId, productId, quantity, price);
             return RedirectToAction("Index");
         }
         public ActionResult Detail(int id)

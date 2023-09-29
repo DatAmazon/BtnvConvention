@@ -46,11 +46,11 @@
     <Compile Include="Interface\ICommon.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\Order_Detail.cs" />
+    <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\SqlDbHelper.cs" />
     <Compile Include="Service\OrderService.cs" />
-    <Compile Include="Service\Order_DetailService.cs" />
+    <Compile Include="Service\OrderDetailService.cs" />
     <Compile Include="Service\ProductService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

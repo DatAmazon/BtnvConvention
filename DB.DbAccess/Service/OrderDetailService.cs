@@ -2,19 +2,19 @@
 
 namespace DB.DbAccess
 {
-    public class Order_DetailService : ICommon<Order_Detail>
+    public class OrderDetailService : ICommon<OrderDetail>
     {
-        public List<Order_Detail> GetAlls()
+        public List<OrderDetail> GetAlls()
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
-            return SqlDbHelper.ConvertDataTableToList<Order_Detail>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.GetOrderDetails, dict));
+            return SqlDbHelper.ConvertDataTableToList<OrderDetail>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.GetOrderDetails, dict));
         }
 
-        public Order_Detail GetById(int id)
+        public OrderDetail GetById(int id)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("@OrderDetailId", id);
-            return SqlDbHelper.ExcuteReaderAnObject<Order_Detail>(SetConst.GetOrderDetailById, dict);
+            return SqlDbHelper.ExcuteReaderAnObject<OrderDetail>(SetConst.GetOrderDetailById, dict);
         }
 
         public static void CreateOrderDetail(int orId, int proId, int quan, int price)
@@ -28,12 +28,12 @@ namespace DB.DbAccess
             SqlDbHelper.ExcuteNonQueryProcedure(SetConst.CreateOrderDetail, dict);
         }
 
-        public static List<Order_Detail> searchOrderDetailByID(int? orderID)
+        public static List<OrderDetail> searchOrderDetailByID(int? orderID)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("@orderDetailId", orderID);
 
-            return SqlDbHelper.ConvertDataTableToList<Order_Detail>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.searchOrderDetailByID, dict));
+            return SqlDbHelper.ConvertDataTableToList<OrderDetail>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.searchOrderDetailByID, dict));
         }
     }
 }

@@ -13,7 +13,6 @@ namespace Lession2.Controllers
         }
         public ActionResult Index(string search)
         {
-            // _productService gọi GetAlls 
             var products = string.IsNullOrEmpty(search) ? _productService.GetAlls() : ProductService.SearchProByName(search);
             return View(products);
         }
@@ -44,7 +43,7 @@ namespace Lession2.Controllers
         }
         public ActionResult Delete(int id)
         {
-            return View(new ProductService().GetById(id));
+            return View(_productService.GetById(id));
         }
 
         [HttpPost, ActionName("Delete")]

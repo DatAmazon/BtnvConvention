@@ -53,11 +53,11 @@ namespace DB.DbAccess
             return SqlDbHelper.ConvertDataTableToList<Order>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.searchOrderByTime, dict));
         }
 
-        public static List<Order_Detail> DetailAllProductInOrderId(int orderID)
+        public static List<OrderDetail> DetailAllProductInOrderId(int orderID)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("@orderId", orderID);
-            return SqlDbHelper.ConvertDataTableToList<Order_Detail>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.DetailAllProductInOrderId, dict));
+            return SqlDbHelper.ConvertDataTableToList<OrderDetail>(SqlDbHelper.ExcuteReaderProcedureToDisplayOnTable(SetConst.DetailAllProductInOrderId, dict));
         }
     }
 }

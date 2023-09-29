@@ -15,7 +15,7 @@ namespace Lession2.Controllers
 
         public ActionResult Index(string search)
         {
-            return View(!String.IsNullOrEmpty(search) ? OrderService.searchOrderByCustomerName(search) : new OrderService().GetAlls());
+            return View(!String.IsNullOrEmpty(search) ? OrderService.searchOrderByCustomerName(search) : _orderService.GetAlls());
         }
         [HttpPost]
         public ActionResult Index(DateTime timeStart, DateTime timeEnd)
