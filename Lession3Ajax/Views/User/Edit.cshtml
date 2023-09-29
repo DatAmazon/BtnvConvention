@@ -1,11 +1,5 @@
-﻿
-@model Lession3.User
+﻿@model Lession3.User
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-@{
-    ViewBag.Title = "Edit";
-}
-
 <h3>Chỉnh sửa SP ID- @Model.Id</h3>
 <form id="editForm" method="post" action="/User/Edit">
     <div class="form-horizontal">
@@ -31,8 +25,11 @@
     </div>
 </form>
 
+<div class="center-vertically"><div class="table-container" id="userTableContainer"> </div></div>
+
 <script>
     $(document).ready(function () {
+        loadData();
         $("#editButton").click(function (e) {
             e.preventDefault();
 
@@ -54,22 +51,32 @@
                 userName: userName,
                 email: email
             };
-            $.ajax({
-                type: "POST",
-                url: "/User/Edit",
-                data: JSON.stringify(userData),
-                contentType: "application/json",
-                success: function (response) {
+
+            $.post("/User/Edit", userData)
+                .done(function (response) {
                     alert("Sửa thông tin thành công cho: " + userName);
-                    window.location.href = "/User/Index";
-                },
-                error: function (xhr, status, error) {
-                    console.log(xhr.responseText); // In ra lỗi từ máy chủ trong Console
+                    loadData();
+                })
+                .fail(function (xhr, status, error) {
+                    console.log(xhr.responseText);
                     alert("Đã xảy ra lỗi: " + error);
-                }
-            });
+                });
         });
     });
+
+    function loadData() {
+        $.ajax({
+            type: "GET",
+            url: "/User/ListUserPatialView",
+            success: function (partialView) {
+                $('#userTableContainer').html(partialView);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                alert("lỗi khi truyền sang partialview: " + error);
+            }
+        });
+    };
 
     function isValid(accName, pass, userName, email) {
         if (accName.length < 3 || accName.length > 20) {

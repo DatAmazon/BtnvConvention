@@ -1,73 +1,54 @@
-﻿﻿@model List<Lession3.User>
-@{
-    ViewBag.Title = "Index";
-}
-<style>
-    /* CSS để căn giữa theo chiều dọc */
+﻿<style>
     .center-vertically {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100vw; /* 100% chiều cao của viewport */
+        width: 100%;
     }
+
     .table-container {
-        width: 80%;
-        margin: 0 auto;
+        width: 82%;
     }
 </style>
-<div class="center-vertically">
-    <div class="table-container">
-        <h5 class="m-0">Danh sách người dùng</h5>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="center-vertically"><div id="userTableContainer" class="table-container"></div></div>
 
-        <p style="float:right; margin-bottom: 4px;">
-            <a href="~/User/Register" class="btn btn-info text-right">Thêm mới</a>
-        </p>
-        <table class="table table-striped table-bordered">
-            <tr class="table-dark">
-                <th style="text-align: center">
-                    ID người dùng
-                </th>
-                <th style="text-align: center">
-                    Tên tài khoản
-                </th>
-                <th style="text-align: center">
-                    Mật khẩu
-                </th>
-                <th style="text-align: center">
-                    Tên người dùng
-                </th>
-                <th style="text-align: center">
-                    Email
-                </th>
-                <th style="text-align: center">
-                    Thao tác
-                </th>
-            </tr>
-            @foreach (var item in Model)
-            {
-                <tr class="table-info">
-                    <td>
-                        @item.Id
-                    </td>
-                    <td>
-                        @item.AccountName
-                    </td>
-                    <td>
-                        @item.Pass
-                    </td>
-                    <td>
-                        @item.UserName
-                    </td>
-                    <td>
-                        @item.Email
-                    </td>
+<h5 class="m-0">Danh sách người dùng</h5>
+<p style="float:right; margin-bottom: 4px;">
+    <a href="~/User/Register" class="btn btn-info text-right">Thêm mới</a>
+</p>
+<table class="table table-striped table-bordered">
+    <tr class="table-dark">
+        <th style="text-align: center">ID người dùng</th>
+        <th style="text-align: center">Tên tài khoản</th>
+        <th style="text-align: center">Mật khẩu</th>
+        <th style="text-align: center">Tên người dùng</th>
+        <th style="text-align: center">Email</th>
+        <th style="text-align: center">Thao tác</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr class="table-info">
+            <td>@item.Id</td>
+            <td>@item.AccountName</td>
+            <td>@item.Pass</td>
+            <td>@item.UserName</td>
+            <td>@item.Email</td>
+            <td style="text-align: center">
+                <a href="@Url.Action("Edit", "User", new { id = item.Id })" class="btn btn-success">Sửa</a>
+                <a href="@Url.Action("Delete", "User", new { id = item.Id })" class="btn btn-danger">Xóa</a>
+            </td>
+        </tr>
+    }
+</table>
 
-                    <td style="text-align: center">
-                        <a href="~/User/Edit/@item.Id" class="btn btn-success">Sửa</a>
-                        <a href="~/User/Delete/@item.Id" class="btn btn-danger">Xóa</a>
-                    </td>
-                </tr>
-            }
-        </table>
-    </div>
-</div>
+
+
+
+
+
+
+
+
+
+

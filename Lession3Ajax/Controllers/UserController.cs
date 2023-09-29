@@ -10,15 +10,23 @@ namespace Lession3
     {
         public ActionResult Index()
         {
+            ViewBag.GetAll = UserService.GetAllUser();
+            return View(ViewBag.GetAll);
+        }
+
+        public ActionResult GetUsers()
+        {
             return View(UserService.GetAllUser());
         }
+
         public ActionResult ListUserPatialView()
         {
-
-            return PartialView(UserService.GetAllUser());
+            var users = UserService.GetAllUser();
+            return PartialView("ListUserPatialView", users);
         }
         public ActionResult Register()
         {
+            ViewBag.GetAll = UserService.GetAllUser();
             return View();
         }
 
@@ -26,18 +34,18 @@ namespace Lession3
         public ActionResult Register(string accName, string pass, string userName, string email)
         {
             UserService.AddUser(accName, pass, userName, email);
-            return RedirectToAction("Index");
+            return View();
         }
         public ActionResult Delete(int id)
         {
-            return View(UserService.GetUserById(id));
+            var a = UserService.GetUserById(id);
+            return View(a);
         }
 
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteUser(int id)
+        public void DeleteUser(int id)
         {
             UserService.DeleteUser(id);
-            return RedirectToAction("Index");
         }
         public ActionResult Edit(int id)
         {
@@ -45,10 +53,9 @@ namespace Lession3
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, string accName, string pass, string userName, string email)
+        public void Edit(int id, string accName, string pass, string userName, string email)
         {
             UserService.EditUser(id, accName, pass, userName, email);
-            return RedirectToAction("Index");
         }
     }
 }

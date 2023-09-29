@@ -4,7 +4,7 @@
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<h2 class="text-primary">Đăng ký</h2>
+<h5 class="text-primary">Đăng ký</h5>
 <form id="registerForm" method="post" action="/User/Register">
     <div class="form-horizontal">
         <hr />
@@ -29,8 +29,12 @@
     </div>
 </form>
 
+<hr />
+<div class="center-vertically"><div class="table-container" id="userTableContainer"> </div></div>
+
 <script>
     $(document).ready(function () {
+        loadData();
         $("#registerButton").click(function (e) {
             e.preventDefault();
 
@@ -40,7 +44,6 @@
             var email = $("input[name='email']").val();
 
             if (!isValid(accName, pass, userName, email)) {
-                alert("Dữ liệu không hợp lệ");
                 return;
             }
             // Tạo object gửi y/c lên máy chủ
@@ -53,40 +56,56 @@
 
             $.post("/User/Register", userData)
                 .done(function (response) {
+                    loadData();
+                    $("input[name='accName']").val("");
+                    $("input[name='pass']").val("");
+                    $("input[name='userName']").val("");
+                    $("input[name='email']").val("");
                     alert("Đăng ký thành công cho: " + userName);
-                    window.location.href = "/User/Index";
                 })
                 .fail(function (xhr, status, error) {
-                    console.log(xhr.responseText); // In ra lỗi từ máy chủ trong Console
-                    alert("Đã xảy ra lỗi: " + error);
+                    console.log(xhr.responseText);
+                    alert("lỗi khi đăng ký: " + error);
                 });
+
         });
     });
+
+    function loadData() {
+        $.ajax({
+            type: "GET",
+            url: "/User/ListUserPatialView",
+            success: function (partialView) {
+                $('#userTableContainer').html(partialView);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                alert("lỗi khi truyền sang partialview: " + error);
+            }
+        });
+    };
+
     function isValid(accName, pass, userName, email) {
         if (accName.length < 3 || accName.length > 20) {
             alert("Tên tài khoản phải có từ 3 đến 20 ký tự.");
             return false;
         }
-
         if (pass.length < 6) {
             alert("Mật khẩu phải có ít nhất 6 ký tự.");
             return false;
         }
-
         if (userName.length < 3 || userName.length > 50) {
             alert("Tên người dùng phải có từ 3 đến 50 ký tự.");
             return false;
         }
-
         if (!isValidEmail(email)) {
             alert("Email không hợp lệ.");
             return false;
         }
-
         return true;
     }
     function isValidEmail(checkEmail) {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailPattern.test(checkEmail);
     }
 </script>

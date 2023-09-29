@@ -1,13 +1,9 @@
 ﻿@model Lession3.User
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-@{
-    ViewBag.Title = "Delete";
-}
-
-<h4 style="color: red">Bạn có chắc chắn muốn xóa SP có ID - @Model.Id</h4>
-<div>
+<div class="delete-hide">
+    <h6 style="color: red">Bạn có chắc chắn muốn xóa người dùng có ID - @Model.Id</h6>
     <hr />
+    <input type="hidden" name="id" value="@Model.Id" />
     <table class="table table-striped table-bordered">
         <thead>
             <tr class="table-dark">
@@ -46,25 +42,43 @@
         </div>
     </form>
 </div>
+<div class="center-vertically"><div class="table-container" id="userTableContainer"> </div></div>
 
 <script>
     $(document).ready(function () {
-
+        loadData();
         $("#deleteBtn").click(function (e) {
-            var id = @Model.Id;
+            var id = parseInt($("input[name='id']").val());
+
             e.preventDefault();
             var userData = {
                 id: id
             };
             $.post("/User/Delete", userData)
                 .done(function (response) {
+                    loadData();
                     alert("Xóa thành công mã: " + id);
-                        window.location.href = "/User/Index";
+                    $('.delete-hide').hide();
+
                 })
                 .fail(function (xhr, status, error) {
                     console.log(xhr.responseText);
-                    alert("Lỗi máy chủ: " + error);
+                    alert("xóa lỗi máy chủ: " + error);
                 });
         });
     });
+
+    function loadData() {
+        $.ajax({
+            type: "GET",
+            url: "/User/ListUserPatialView",
+            success: function (partialView) {
+                $('#userTableContainer').html(partialView);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                alert("lỗi khi truyền sang partialview: " + error);
+            }
+        });
+    };
 </script>
